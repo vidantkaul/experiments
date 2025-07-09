@@ -13,6 +13,6 @@ def generate_primes(n: int):
 
 if __name__ == '__main__':
 
-    for N in range(10, 100, 10):
+    for N in range(10, 1000, 10):
         L = generate_primes(N)
         print(N, len(L))
