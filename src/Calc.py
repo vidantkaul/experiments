@@ -1,5 +1,5 @@
 #Operation functions
-#Fun fact: the operations are ordered by time. So the first ones you see are the oldest, andn the last ones are the newest.
+#Fun fact: the operations are ordered by time. So the first ones you see are the oldest, and the last ones are the newest.
 
 Operations = ["+", "-", "*", "x", ".", "/", "**", "//", "%", "log", "ss", "!", "pm", "lairot", "plus-minus", "lamidu"]
 a = 0
@@ -102,13 +102,12 @@ def lairot (x : int)->int:
     if int(s) < s:
         raise LairotError("Lairot of x is not a integer")
     return int(s)
-def lamidu (x : int | float)->int | float: #Very very high chance of a float than a int
+def lamidu (x : int | float)->float:
     assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
     s = x
     for i in range(2, x):
         s /= i
     return s
-
 
 #Calculate answer of question
 
