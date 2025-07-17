@@ -1,5 +1,5 @@
 #Operation functions
-#Fun fact: the operations are ordered by time. So the first ones you see are the oldest, and the last ones are the newest.
+#Fun fact: the operations are ordered by time. So the first ones you see are the oldest, andn the last ones are the newest.
 
 Operations = ["+", "-", "*", "x", ".", "/", "**", "//", "%", "log", "ss", "!", "pm", "lairot", "plus-minus", "lamidu"]
 a = 0
