@@ -1,8 +1,9 @@
 #Operation functions
 #Fun fact: the operations are ordered by time. So the first ones you see are the oldest, and the last ones are the newest.
-
+from pi import Pi
 Operations = ["+", "-", "*", "x", ".", "/", "**", "//", "%", "log", "ss", "!", "pm", "lairot", "plus-minus", "lamidu"]
 a = 0
+pi = Pi
 
 #Define Errors:
 class LogError(Exception):
@@ -109,11 +110,17 @@ def lamidu (x : int | float)->float:
         s /= i
     return s
 
+#Stands for Circumfrience Calculation
+def CC (r : int | float)->float:
+    assert isinstance(r, (int, float)), "r is not an integer or a floating point number"
+    ans = pi * (r ** 2)
+    return ans
+
 #Calculate answer of question
 
 def find_answer (args)->int | float:
     assert isinstance(args, list), "args is not a list"
-    check = args[1] == "!" or args[1] == "ss" or args[1] == "lairot" or args[1] == "lamidu"
+    check = args[1] == "!" or args[1] == "ss" or args[1] == "lairot" or args[1] == "lamidu" or args[1] == "CC"
     if check:
         assert isinstance(args[0], int), f"{args[0]} inside args is not a int"
     else:
@@ -147,10 +154,11 @@ def find_answer (args)->int | float:
             return lairot(args[0])
         elif args[1] == "lamidu":
             return lamidu(args[0])
-        else:
+        elif args[1] == "ss":
             return simple_sigma(args[0])
+        else:
+            return CC(args[0])
 
 
 if __name__ == '__main__':
     print("Everything works!")
-    #print(log(2, 128))
