@@ -1,164 +1,78 @@
-#Operation functions
-#Fun fact: the operations are ordered by time. So the first ones you see are the oldest, and the last ones are the newest.
-from pi import Pi
-Operations = ["+", "-", "*", "x", ".", "/", "**", "//", "%", "log", "ss", "!", "pm", "lairot", "plus-minus", "lamidu"]
-a = 0
-pi = Pi
-
-#Define Errors:
-class LogError(Exception):
-    def __init__(self, *args):
-        super().__init__(*args)
-class SquareRootError(Exception):
-    def __init__(self, *args):
-        super().__init__(*args)
-class LairotError(Exception):
-    def __init__(self, *args):
-        super().__init__(*args)
-
-def add (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return x + y
-def subtract (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return x - y
-def multiply (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return x * y
-def divide (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    if x % y == 0:
-        return int(x / y)
+def add (x : int | float, y : int | float): return x + y
+def sub (x : int | float, y : int | float): return x - y
+def mul (x : int | float, y : int | float): return x * y
+def div (x : int | float, y : int | float):
+    if y == 0: raise ZeroDivisionError("y cannot be 0")
+    else: return x / y
+def quotient (x : int | float, y : int | float):  return x // y
+def remainder (x : int | float, y : int | float): return x % y
+def power (x : float, y : float):                 return x ** y
+def squareroot (x : int, y : int):
+    assert isinstance(x, int), "x is not an int"
+    assert isinstance(y, int), "root is not an int"
+    assert y > 1, "root cannot be negitive"
+    ans = None
+    if x % 2 == 0:
+        for i in range(int(x/2)):
+            ans = i ** y
+            if ans == x:
+                return i
+            else:
+                continue
     else:
-        return x / y
-def power (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return x ** y
-def quotinet (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return x // y
-def remainder_or_mod (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return x % y
-def log (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
+        for i in range(x):
+            ans = i ** y
+            if ans == x:
+                return i
+            else:
+                continue
+    return f"squareroot of {x} is not an int"
+def log (x : int, y : int = 10):
+    assert isinstance(x, int), "x is not an int"
+    assert isinstance(y, int), "y is not an int"
     assert x > 0, "x cannot be 0 or less"
-    assert y > 0, "y cannot be 0 or less"
-    global a
-    if y == 1:
+    if x < y:
         return 0
-    if (y / x) < 1:
-        raise LogError("y is not a power of x")
-    elif y == x:
-        return a + 1
-    else:
-        a += 1
-        return log(x, (y / x))
-def simple_sigma (x : int | float = 4)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert x > 0, "x cannot be less than 1"
-    s = 0
-    for i in range(x+1):
-        s += i
-    return s
-def factorial (x : int)->int:
-    assert isinstance(x, int), "x is not an integer or a floating point number"
-    assert x > 1, "x cannot be less than 2"
-    s = 1
-    for i in range(1, x, -1):
-        s *= i
-    return s
-def plus_minus (x : int | float, y : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    assert isinstance(y, (int, float)), "y is not an integer or floating point number"
-    return (x + y, x - y)
-def squareroot (x : int | float)->int:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    s = 0
-    for i in range(1, x * 2, x):
-        if i == x:
-            return s
-        else:
-            continue
-    raise SquareRootError("SquareRoot of x is not a integer")
-def lairot (x : int)->int:
-    assert isinstance(x, int), "x is not an integer or a floating point number"
-    assert x >= 2, "x cannot be less than 3"
-    s = x
-    for i in range(2, x):
-        s /= i
-        if s <= 1:
-            s *= i
+    elif x == y:
+        return 1
+    count = 1
+    n = x
+    while True:
+        n /= y
+        if (n * 2) // 2 != n:
+            raise ValueError(f"{x} is not a power of 10")
+        elif n == y:
             break
         else:
-            continue
-    if int(s) < s:
-        raise LairotError("Lairot of x is not a integer")
-    return int(s)
-def lamidu (x : int | float)->float:
-    assert isinstance(x, (int, float)), "x is not an integer or a floating point number"
-    s = x
-    for i in range(2, x):
-        s /= i
+            count += 1
+    return count + 1
+def round_up (x : int, y : int):
+    assert isinstance(x, int), "x is not an int"
+    assert x > 0, "x is <= 0"
+    assert isinstance(y, int), "y is not an int"
+    assert y > 0, "y is <= 0"
+    ex = log(y)
+    s = str(x)[-ex:]
+    return x + (y - int(s))
+def round_down (x : int, y : int):
+    assert isinstance(x, int), "x is not an int"
+    assert x > 0, "x is <= 0"
+    assert isinstance(y, int), "y is not an int"
+    assert y > 0, "y is <= 0"
+    ex = log(y)
+    s = str(x)[-ex:]
+    return x - (y + int(s))
+def gcd (x : int, y : int)->int:
+    assert isinstance(x, int), "x is not an int"
+    assert isinstance(y, int), "y is not an int"
+    if x < y: x, y = y, x
+    z = x % y
+    if z == 0: return y
+    else: return gcd(y, z)
+def sigma (end : int | float, start : int | float = 1, steps : int | float = 1):
+    assert isinstance(start, (int, float)), "start is not an int or an float"
+    assert isinstance(end, (int, float)), "end is not an int or an float"
+    assert isinstance(steps, (int, float)), "steps is not an int or an float"
+    s = start
+    for i in range(start, end, steps): s += i
     return s
-
-#Stands for Circumfrience Calculation
-def CC (r : int | float)->float:
-    assert isinstance(r, (int, float)), "r is not an integer or a floating point number"
-    ans = pi * (r ** 2)
-    return ans
-
-#Calculate answer of question
-
-def find_answer (args)->int | float:
-    assert isinstance(args, list), "args is not a list"
-    check = args[1] == "!" or args[1] == "ss" or args[1] == "lairot" or args[1] == "lamidu" or args[1] == "CC"
-    if check:
-        assert isinstance(args[0], int), f"{args[0]} inside args is not a int"
-    else:
-        try:
-            assert isinstance(args[2], int), f"{args[2]} inside args is not a int"
-            assert isinstance(args[0], int), f"{args[0]} inside args is not a int"
-        except IndexError:
-            raise NameError(f"{args[1]} is not a operation")
-    global Operations
-    assert args[1] in Operations, f"{args[1]} inside args is not a operation"
-    if not check:
-        Table = {
-            "+" : add(args[0], args[2]),
-            "-" : subtract(args[0], args[2]),
-            "*" : multiply(args[0], args[2]),
-            "/" : divide(args[0], args[2]),
-            "**" : power(args[0], args[2]),
-            "//" : quotinet(args[0], args[2]),
-            "%" : remainder_or_mod(args[0], args[2]),
-            "x" : multiply(args[0], args[2]),
-            "." : multiply(args[0], args[2]),
-            "log" : log(args[0], args[2]),
-            "pm" : plus_minus(args[0], args[2]),
-            "plus-minus" : plus_minus(args[0], args[2]),
-        }
-        return Table[args[1]]
-    else:
-        if args[1] == "!":
-            return factorial(args[0])
-        elif args[1] == "lairot":
-            return lairot(args[0])
-        elif args[1] == "lamidu":
-            return lamidu(args[0])
-        elif args[1] == "ss":
-            return simple_sigma(args[0])
-        else:
-            return CC(args[0])
-
-
-if __name__ == '__main__':
-    print("Everything works!")

@@ -1,0 +1,4 @@
+- {begin: 10, end: 1000, step: 10, verbose: True, measure_time: False}
+- {begin: 100, end: 10000, step: 100, measure_time: True}
+- {begin: 10, end: 10000, step: 100}
+
