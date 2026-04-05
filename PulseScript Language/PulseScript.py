@@ -1,12 +1,12 @@
 # PulseScript programming language
 # TODO:
-#   Make the function check function work for floats and strings
+#   Make the function check function work
 
 special_chars = ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "[", "{", "]", "}", "\\", 
                  "|", ";", ":", ",", "<", ">", "/", "?"]  # removed "." to allow floats
 
 # Make sure there's nothing wrong with the syntax of a variable
-def var_check(variable: str) -> str:
+def var_check(variable: str, debug: bool = False) -> None:
     if not isinstance(variable, str): 
         raise SyntaxError(f"type({variable}) gave {type(variable)} and not <class 'str'>")
 
@@ -63,12 +63,31 @@ def var_check(variable: str) -> str:
                 raise SyntaxError(f"{variable} has invalid character '{char}' in value")
 
     # Return detailed info for debugging
-    return (f"variable: {variable}\nhas_equal: {has_equal}\nplace: {place}\n"
+    if debug: return (f"variable: {variable}\nhas_equal: {has_equal}\nplace: {place}\n"
             f"name: {name}\nValue: {Value}\nvalue: {value_str}")
+    else: return None
 
-print(var_check("x = '35434tg4r'"))
+print(var_check("x = '35434tg4r'", True))
 # Make sure there's nothing wrong with the syntax of a function
 def function_check(function: str) -> str:
     if not isinstance(function, str): raise SyntaxError(f"type({function}) gave {type(function)} and not <class 'int'>")
+
+    # Convert the string into a list
     L = [x for x in function]
-    
+    bracket_start = False
+    bracket_end = False
+
+    # Make sure the start begins with 'Func '
+    for (i, v) in enumerate(L[:4]):
+        if ["F", "u", "n", "c", " "][i] != v: raise SyntaxError(f"Function {function} doesn't begin with 'Func'")
+
+    # Make sure the function has a name
+    for j in L[5:]:
+        if j == "[":
+            if bracket_start: raise SyntaxError(f"Function {function} has special characters in it's name")
+            bracket_start = True
+        elif j == "]":
+            if bracket_end: raise SyntaxError(f"Function {function} has special characters in it's name")
+        elif j in special_chars: raise SyntaxError(f"Function {function} has special characters in it's name")
+
+
